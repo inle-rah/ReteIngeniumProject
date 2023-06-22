@@ -1,0 +1,12 @@
+<h1>test</h1>
+
+<table>
+    <tr>
+        <th>従業員一覧</th>
+    </tr>
+    {% for employeeinfo in employees %}
+        <tr>
+            <td><a href="{% url 'emInf' employeeinfo.id %}">{{employeeinfo.familyNameKanji}} {{employeeinfo.firstNameKanji}}</a></td>
+        </tr>
+    {% endfor %}
+</table>
