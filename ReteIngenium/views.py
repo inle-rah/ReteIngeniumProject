@@ -6,9 +6,11 @@ from django.views.generic.detail import DetailView
 
 from ReteIngenium.models import EmployeeInformation, ProjectInfomation
 
-# class IndexView(TemplateView):
-#     template_name = "index.html"
+# トップページ
+def IndexPage(request):
+    return render(request, 'index.html')
 
+# 
 class EmployeeList(ListView):
     model = EmployeeInformation
     context_object_name = "employees"
