@@ -1,8 +1,20 @@
-<h1>従業員詳細</h1>
+<h1>エンジニア詳細</h1>
 
 <table>
     <div>
         名前：{{employeeDetail.familyNameKanji}} {{employeeDetail.firstNameKanji}}<br>
-        カナ：{{employeeDetail.familyNameKana}} {{employeeDetail.firstNameKana}}
+        カナ：{{employeeDetail.familyNameKana}} {{employeeDetail.firstNameKana}}<br>
+        年齢：{{employeeDetail.employeeAge}}<br>
+        性別：{{employeeDetail.employeeSex}}<br>
+        最寄駅：{{employeeDetail.employeeArea}}<br>
+        所有資格：{{employeeDetail.certification}}<br>
+        主な開発言語：{{employeeDetail.mainLanguage}}<br>
+        経験年数：{{employeeDetail.yearsOfExp}}
+    </div>
+    <div>
+        {{ProjectInfomation.projectSummary}}
+    </div>
+    <div>
+        <a href="{% url 'emList' %}">一覧に戻る</a>
     </div>
 </table>
