@@ -10,16 +10,18 @@ from ReteIngenium.models import EmployeeInformation, ProjectInfomation
 def IndexPage(request):
     return render(request, 'index.html')
 
-# 
+# エンジニア一覧
 class EmployeeList(ListView):
     model = EmployeeInformation
     context_object_name = "employees"
-    
+
+# エンジニア詳細
 class EmployeeInfo(DetailView):
     model = EmployeeInformation
     context_object_name = "employeeDetail"
     
-    # if EmployeeInformation.careerList != ProjectInfomation.projectId:
-    #     ProjectInfomation.projectId = EmployeeInformation.careerList
-    
-    
+# TODO 案件一覧
+
+# TODO 案件詳細
+
+# TODO 案件受諾（マッチング）
