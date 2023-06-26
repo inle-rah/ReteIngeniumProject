@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
+
 # 従業員情報
 class EmployeeInformation(models.Model):
     # 従業員ID
@@ -25,12 +26,13 @@ class EmployeeInformation(models.Model):
     yearsOfExp = models.IntegerField()
     # 経歴(結合用ID)
     careerList = models.UUIDField(default=uuid.uuid4, editable=False)
-    
+
     def __str__(self):
         return self.familyNameKanji
-    
+
     class Meta:
         ordering = ["yearsOfExp"]
+
 
 # 案件情報
 class ProjectInfomation(models.Model):
@@ -54,10 +56,19 @@ class ProjectInfomation(models.Model):
     projectDevEnv = models.TextField(max_length=100)
     # 案件詳細
     projectDetail = models.TextField(max_length=500)
-    
+
     def __str__(self):
         return self.workPlace
-    
+
     class Meta:
         ordering = ["projectRegisteredDate"]
-    
+
+
+# 登録情報紐付けテーブル
+class InfomationUniteTable(models.Model):
+    # 従業員側targetId
+    empTargetId = models.UUIDField()
+    # 案件側targetId
+    proTargetId = models.UUIDField()
+    # 登録日
+    projectRegisteredDate = models.DateField(auto_now_add=True)

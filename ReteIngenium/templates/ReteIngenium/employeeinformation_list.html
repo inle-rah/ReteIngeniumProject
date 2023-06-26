@@ -6,7 +6,7 @@
     </tr>
     {% for employeeinfo in employees %}
         <tr>
-            <td><a href="{% url 'emInf' employeeinfo.id %}">{{employeeinfo.familyNameKanji}} {{employeeinfo.firstNameKanji}}</a></td>
+            <td><a href="{% url 'emInfo' employeeinfo.id %}">{{employeeinfo.familyNameKanji}} {{employeeinfo.firstNameKanji}}</a></td>
         </tr>
     {% endfor %}
 </table>

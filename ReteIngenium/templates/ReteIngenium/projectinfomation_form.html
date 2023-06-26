@@ -1,0 +1,7 @@
+<h2>案件登録</h2>
+<a href="{% url 'index' %}">戻る</a>
+
+<form action="" method="post">
+    {% csrf_token %} {{form.as_p}}
+    <input type="submit" value="登録" />
+</form>

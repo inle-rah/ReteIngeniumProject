@@ -1,0 +1,30 @@
+<h1>案件詳細</h1>
+
+<table>
+    <div>
+        <p>案件概要：{{projectDetail.projectSummary}}</p>
+        <p>案件登録日：{{projectDetail.projectRegisteredDate}}</p>
+        <p>依頼企業名：{{projectDetail.projectCliant}}</p>
+        <p>単価：{{projectDetail.projectUnitPrice}}</p>
+        <p>勤務地：{{projectDetail.workPlace}}</p>
+        <p>必須スキル（言語）：{{projectDetail.requiredLanguage}}</p>
+        <p>上記の経験年数：{{projectDetail.reqLangExperience}}</p>
+        <p>開発環境：{{projectDetail.projectDevEnv}}</p>
+        <p>案件詳細：{{projectDetail.projectDetail}}</p>
+    </div>
+    <div>
+        {% if employees %}
+        <!-- 一致したエンジニアが表示される -->
+        {% for employee in employees %}
+        <a href="{% url 'emInfo' employee.id %}?fromPage=employeeList&pk={{ projectDetail.id }}">
+            <p>{{ employee.familyNameKanji }} {{ employee.firstNameKanji }}</p>
+        </a>
+        {% endfor %}
+        {% else %}
+        <p>該当者なし</p>
+        {% endif %}
+    </div>
+    <div>
+        <a href="{% url 'proList' %}">一覧に戻る</a>
+    </div>
+</table>

@@ -1,0 +1,16 @@
+<h1>test</h1>
+
+<table>
+    <tr>
+        <th>案件一覧</th>
+    </tr>
+    {% for projectinfo in projects %}
+    <tr>
+        <td><a href="{% url 'proInfo' projectinfo.id %}">{{projectinfo.projectSummary}}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+<div>
+    <td><a href="{% url 'index' %}">topに戻る</a></td>
+</div>

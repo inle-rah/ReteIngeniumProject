@@ -2,19 +2,22 @@
 
 <table>
     <div>
-        名前：{{employeeDetail.familyNameKanji}} {{employeeDetail.firstNameKanji}}<br>
-        カナ：{{employeeDetail.familyNameKana}} {{employeeDetail.firstNameKana}}<br>
-        年齢：{{employeeDetail.employeeAge}}<br>
-        性別：{{employeeDetail.employeeSex}}<br>
-        最寄駅：{{employeeDetail.employeeArea}}<br>
-        所有資格：{{employeeDetail.certification}}<br>
-        主な開発言語：{{employeeDetail.mainLanguage}}<br>
-        経験年数：{{employeeDetail.yearsOfExp}}
+        <p>名前：{{employeeDetail.familyNameKanji}} {{employeeDetail.firstNameKanji}}</p>
+        <p>カナ：{{employeeDetail.familyNameKana}} {{employeeDetail.firstNameKana}}</p>
+        <p>年齢：{{employeeDetail.employeeAge}}</p>
+        <p>性別：{{employeeDetail.employeeSex}}</p>
+        <p>最寄駅：{{employeeDetail.employeeArea}}</p>
+        <p>所有資格：{{employeeDetail.certification}}</p>
+        <p>主な開発言語：{{employeeDetail.mainLanguage}}</p>
+        <p>経験年数：{{employeeDetail.yearsOfExp}}</p>
     </div>
     <div>
-        {{ProjectInfomation.projectSummary}}
-    </div>
-    <div>
+        {% if from_page == "employeeList" %}
+        <!-- 案件詳細へ -->
+        <a href="{% url 'proInfo' pk=projectDetail.pk %}">一覧に戻る</a>
+        {% else %}
+        <!-- エンジニア一覧へ -->
         <a href="{% url 'emList' %}">一覧に戻る</a>
+        {% endif %}
     </div>
 </table>
