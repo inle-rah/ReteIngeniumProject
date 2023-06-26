@@ -14,7 +14,7 @@
     <div>
         {% if from_page == "employeeList" %}
         <!-- 案件詳細へ -->
-        <a href="{% url 'proInfo' pk=projectDetail.pk %}">一覧に戻る</a>
+        <a href="{% url 'proInfo' pk=projectDetail.pk %}">案件詳細に戻る</a>
         {% else %}
         <!-- エンジニア一覧へ -->
         <a href="{% url 'emList' %}">一覧に戻る</a>

@@ -16,7 +16,7 @@
         {% if employees %}
         <!-- 一致したエンジニアが表示される -->
         {% for employee in employees %}
-        <a href="{% url 'emInfo' employee.id %}?fromPage=employeeList&pk={{ projectDetail.id }}">
+        <a href="{% url 'emInfo' employee.id %}?fromPage=employeeList&project_pk={{ projectDetail.id }}">
             <p>{{ employee.familyNameKanji }} {{ employee.firstNameKanji }}</p>
         </a>
         {% endfor %}

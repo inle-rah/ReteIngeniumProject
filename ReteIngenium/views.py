@@ -32,7 +32,12 @@ class EmployeeInfo(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         from_page = self.request.GET.get("fromPage")
+        project_pk = self.request.GET.get("project_pk")
         context["from_page"] = from_page
+        try:
+            context["projectDetail"] = ProjectInfomation.objects.get(pk=project_pk)
+        except ProjectInfomation.DoesNotExist:
+            context["projectDetail"] = None
         return context
 
 
