@@ -1,0 +1,6 @@
+<a href="{% url 'emList'%}">一覧に戻る</a>
+
+<form method="post">{% csrf_token %}
+    <p>{{targetemp.familyNameKanji}} {{targetemp.firstNameKanji}} さんのデータを本当に削除しますか？</p>
+    <input type="submit" value="はい" />
+</form>

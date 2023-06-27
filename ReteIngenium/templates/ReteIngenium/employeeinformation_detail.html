@@ -18,6 +18,7 @@
         {% else %}
         <!-- エンジニア一覧へ -->
         <a href="{% url 'emList' %}">一覧に戻る</a>
+        <a href="{% url 'emDel' employeeDetail.id %}">削除</a>
         {% endif %}
     </div>
 </table>

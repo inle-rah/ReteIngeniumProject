@@ -17,7 +17,13 @@
         <!-- 一致したエンジニアが表示される -->
         {% for employee in employees %}
         <a href="{% url 'emInfo' employee.id %}?fromPage=employeeList&project_pk={{ projectDetail.id }}">
-            <p>{{ employee.familyNameKanji }} {{ employee.firstNameKanji }}</p>
+            <p>
+                {{ employee.familyNameKanji }} {{ employee.firstNameKanji }}
+                <form method="post" action="{% url 'assign' projectDetail.projectId employee.employeeId %}">
+                    {% csrf_token %}
+                    <input type="submit" value="確認" class="button">
+                </form>
+            </p>
         </a>
         {% endfor %}
         {% else %}
@@ -26,5 +32,8 @@
     </div>
     <div>
         <a href="{% url 'proList' %}">一覧に戻る</a>
+    </div>
+    <div>
+        <a href="{% url 'proDel' projectDetail.id %}">削除</a>
     </div>
 </table>
