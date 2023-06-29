@@ -1,9 +1,11 @@
-<h1>test</h1>
+<h2>プロジェクト一覧</h2>
+
+<form method="get">
+    <input type="text" name="search" value="{{search}}">
+    <input type="submit" value="検索">
+</form>
 
 <table>
-    <tr>
-        <th>案件一覧</th>
-    </tr>
     {% for projectinfo in projects %}
     <tr>
         <td><a href="{% url 'proInfo' projectinfo.id %}">{{projectinfo.projectSummary}}</a></td>

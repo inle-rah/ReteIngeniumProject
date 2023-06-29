@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.http import HttpResponseNotAllowed
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -22,6 +23,19 @@ def IndexPage(request):
 class EmployeeList(ListView):
     model = EmployeeInformation
     context_object_name = "employees"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        searchInputText = self.request.GET.get("search")
+        if searchInputText:
+            context["employees"] = context["employees"].filter(
+                Q(familyNameKanji__icontains=searchInputText)
+                | Q(firstNameKanji__icontains=searchInputText)
+                | Q(familyNameKana__icontains=searchInputText)
+                | Q(firstNameKana__icontains=searchInputText)
+            )
+            context["search"] = searchInputText
+        return context
 
 
 # エンジニア詳細
@@ -67,6 +81,18 @@ class EmployeeRegister(CreateView):
 class ProjectList(ListView):
     model = ProjectInfomation
     context_object_name = "projects"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        searchInputText = self.request.GET.get("search") or None
+        searchInputPullDown = self.request.GET.get("language") or None
+        if searchInputText:
+            context["projects"] = context["projects"].filter(
+                Q(projectSummary__icontains=searchInputText)
+                | Q(requiredLanguage__icontains=searchInputText)
+            )
+            context["search"] = searchInputText
+        return context
 
 
 # 案件詳細
@@ -118,10 +144,10 @@ def assign_confirm(request, project_id, employee_id):
     if request.method == "POST":
         confirm = request.POST.get("confirm")
         if confirm == "はい":
-            # 重複レコードがある場合削除
-            InfomationUniteTable.objects.filter(
+            if InfomationUniteTable.objects.filter(
                 empTargetId=employee_id, proTargetId=project_id
-            ).delete()
+            ).exists():
+                return render(request, "assign_duplicate.html")
             unite_table = InfomationUniteTable(
                 empTargetId=employee_id, proTargetId=project_id
             )

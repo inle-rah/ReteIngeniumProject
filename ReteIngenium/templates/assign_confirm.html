@@ -9,6 +9,7 @@
 
 <form method="post" action="{% url 'assign_confirm' project.projectId employee.employeeId %}">
     {% csrf_token %}
+    <p>本当にアサインしますか？</p>
     <input type="submit" name="confirm" value="はい" class="button">
     <input type="submit" name="confirm" value="いいえ" class="button">
 </form>

@@ -1,9 +1,11 @@
-<h1>test</h1>
+<h2>エンジニア一覧</h2>
+
+<form method="get">
+    <input type="text" name="search" value="{{search}}">
+    <input type="submit" value="検索">
+</form>
 
 <table>
-    <tr>
-        <th>エンジニア一覧</th>
-    </tr>
     {% for employeeinfo in employees %}
     <tr>
         <td><a href="{% url 'emInfo' employeeinfo.id %}">{{employeeinfo.familyNameKanji}}
