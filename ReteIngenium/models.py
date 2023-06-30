@@ -73,7 +73,7 @@ class InformationUniteTable(models.Model):
     # 登録日
     projectRegisteredDate = models.DateField(auto_now_add=True)
 
-    #
+    # 　従業員のIDを受け取り、紐づけしたデータを返却
     def get_related_projects(emp_target_id):
         pro_target_ids = InformationUniteTable.objects.filter(
             empTargetId=emp_target_id
