@@ -13,10 +13,12 @@
         <p>案件詳細：{{projectDetail.projectDetail}}</p>
     </div>
     <div>
+        {% if from_page == "employeeList" %}
+        {% else %}
         {% if employees %}
         <!-- 一致したエンジニアが表示される -->
         {% for employee in employees %}
-        <a href="{% url 'emInfo' employee.id %}?fromPage=employeeList&project_pk={{ projectDetail.id }}">
+        <a href="{% url 'emInfo' employee.id %}?fromPage=projectList&project_pk={{ projectDetail.id }}">
             <p>
                 {{ employee.familyNameKanji }} {{ employee.firstNameKanji }}
                 <form method="post" action="{% url 'assign' projectDetail.projectId employee.employeeId %}">
@@ -29,11 +31,16 @@
         {% else %}
         <p>該当者なし</p>
         {% endif %}
+        {% endif %}
     </div>
     <div>
+        {% if from_page == "employeeList" %}
+        <!-- エンジニア詳細へ -->
+        <a href="{% url 'emInfo' pk=employeeDetail.pk %}">戻る</a>
+        {% else %}
+        <!-- 案件一覧へ -->
         <a href="{% url 'proList' %}">一覧に戻る</a>
-    </div>
-    <div>
         <a href="{% url 'proDel' projectDetail.id %}">削除</a>
+        {% endif %}
     </div>
 </table>

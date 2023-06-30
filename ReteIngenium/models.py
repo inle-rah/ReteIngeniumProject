@@ -35,7 +35,7 @@ class EmployeeInformation(models.Model):
 
 
 # 案件情報
-class ProjectInfomation(models.Model):
+class ProjectInformation(models.Model):
     # 案件識別ID
     projectId = models.UUIDField(default=uuid.uuid4, editable=False)
     # 案件概要
@@ -65,10 +65,17 @@ class ProjectInfomation(models.Model):
 
 
 # 登録情報紐付けテーブル
-class InfomationUniteTable(models.Model):
+class InformationUniteTable(models.Model):
     # 従業員側targetId
     empTargetId = models.UUIDField()
     # 案件側targetId
     proTargetId = models.UUIDField()
     # 登録日
     projectRegisteredDate = models.DateField(auto_now_add=True)
+
+    #
+    def get_related_projects(emp_target_id):
+        pro_target_ids = InformationUniteTable.objects.filter(
+            empTargetId=emp_target_id
+        ).values_list("proTargetId")
+        return ProjectInformation.objects.filter(projectId__in=pro_target_ids)

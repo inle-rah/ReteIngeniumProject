@@ -9,8 +9,8 @@ from django.db.models import Q
 
 from ReteIngenium.models import (
     EmployeeInformation,
-    ProjectInfomation,
-    InfomationUniteTable,
+    ProjectInformation,
+    InformationUniteTable,
 )
 
 
@@ -48,11 +48,22 @@ class EmployeeInfo(DetailView):
         from_page = self.request.GET.get("fromPage")
         project_pk = self.request.GET.get("project_pk")
         context["from_page"] = from_page
-        # 案件ページ以外から飛ぶ際はExceptが発生→空で送って処理
+        context["employeeDetail"] = self.get_object()
+        # 案件ページからのアクセス時
         try:
-            context["projectDetail"] = ProjectInfomation.objects.get(pk=project_pk)
-        except ProjectInfomation.DoesNotExist:
+            context["projectDetail"] = ProjectInformation.objects.get(pk=project_pk)
+        except ProjectInformation.DoesNotExist:
             context["projectDetail"] = None
+
+        # 紐付け情報存在時
+        employee_id = self.object.employeeId
+        try:
+            context["related_projects"] = InformationUniteTable.get_related_projects(
+                employee_id
+            )
+        except ProjectInformation.DoesNotExist:
+            context["related_projects"] = None
+
         return context
 
 
@@ -79,13 +90,12 @@ class EmployeeRegister(CreateView):
 
 # 案件一覧
 class ProjectList(ListView):
-    model = ProjectInfomation
+    model = ProjectInformation
     context_object_name = "projects"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         searchInputText = self.request.GET.get("search") or None
-        searchInputPullDown = self.request.GET.get("language") or None
         if searchInputText:
             context["projects"] = context["projects"].filter(
                 Q(projectSummary__icontains=searchInputText)
@@ -97,11 +107,19 @@ class ProjectList(ListView):
 
 # 案件詳細
 class ProjectInfo(DetailView):
-    model = ProjectInfomation
+    model = ProjectInformation
     context_object_name = "projectDetail"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        from_page = self.request.GET.get("fromPage")
+        employee_pk = self.request.GET.get("employee_pk")
+        context["from_page"] = from_page
+        # エンジニアページからのアクセス時
+        try:
+            context["employeeDetail"] = EmployeeInformation.objects.get(pk=employee_pk)
+        except EmployeeInformation.DoesNotExist:
+            context["employeeDetail"] = None
         # スキルが一致する従業員を取得
         context["employees"] = EmployeeInformation.objects.filter(
             Q(mainLanguage=self.object.requiredLanguage)
@@ -113,7 +131,7 @@ class ProjectInfo(DetailView):
 
 # 案件登録
 class ProjectRegister(CreateView):
-    model = ProjectInfomation
+    model = ProjectInformation
     fields = [
         "projectSummary",
         "projectCliant",
@@ -129,7 +147,7 @@ class ProjectRegister(CreateView):
 
 # 案件受諾（マッチング）
 def assign(request, project_id, employee_id):
-    project = get_object_or_404(ProjectInfomation, projectId=project_id)
+    project = get_object_or_404(ProjectInformation, projectId=project_id)
     employee = get_object_or_404(EmployeeInformation, employeeId=employee_id)
     if request.method == "POST":
         context = {
@@ -144,11 +162,11 @@ def assign_confirm(request, project_id, employee_id):
     if request.method == "POST":
         confirm = request.POST.get("confirm")
         if confirm == "はい":
-            if InfomationUniteTable.objects.filter(
+            if InformationUniteTable.objects.filter(
                 empTargetId=employee_id, proTargetId=project_id
             ).exists():
                 return render(request, "assign_duplicate.html")
-            unite_table = InfomationUniteTable(
+            unite_table = InformationUniteTable(
                 empTargetId=employee_id, proTargetId=project_id
             )
             unite_table.save()
@@ -169,7 +187,7 @@ class EmployeeInfoDelete(DeleteView):
 
 # 登録情報削除（案件）
 class ProjectInfoDelete(DeleteView):
-    model = ProjectInfomation
+    model = ProjectInformation
     field = "__all__"
     success_url = reverse_lazy("proList")
     context_object_name = "targetpro"

@@ -11,12 +11,23 @@
         <p>主な開発言語：{{employeeDetail.mainLanguage}}</p>
         <p>経験年数：{{employeeDetail.yearsOfExp}}</p>
     </div>
+
     <div>
-        {% if from_page == "employeeList" %}
+        {% if from_page == "projectList" %}
         <!-- 案件詳細へ -->
         <a href="{% url 'proInfo' pk=projectDetail.pk %}">案件詳細に戻る</a>
         {% else %}
         <!-- エンジニア一覧へ -->
+        <h2>関連する案件情報</h2>
+        {% if related_projects %}
+        {% for project in related_projects %}
+        <a href="{% url 'proInfo' project.id %}?fromPage=employeeList&employee_pk={{ employeeDetail.id }}">
+            <p>・{{ project.projectSummary }}</p>
+        </a>
+        {% endfor %}
+        {% else %}
+        <p>該当なし</p>
+        {% endif %}
         <a href="{% url 'emList' %}">一覧に戻る</a>
         <a href="{% url 'emDel' employeeDetail.id %}">削除</a>
         {% endif %}
