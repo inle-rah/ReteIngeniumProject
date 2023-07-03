@@ -67,9 +67,6 @@ class EmployeeInfo(DetailView):
         return context
 
 
-# TODO エンジニア経歴確認画面
-
-
 # エンジニア登録
 class EmployeeRegister(CreateView):
     model = EmployeeInformation

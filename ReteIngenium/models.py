@@ -18,14 +18,12 @@ class EmployeeInformation(models.Model):
     employeeSex = models.CharField(max_length=10)
     # 最寄駅
     employeeArea = models.CharField(max_length=15)
-    # 所有資格(従業員IDを流用し、他テーブルとの結合)
+    # 所有資格
     certification = models.TextField(max_length=100)
     # メイン言語
     mainLanguage = models.CharField(max_length=10)
     # メイン言語の経験年数
     yearsOfExp = models.IntegerField()
-    # 経歴(結合用ID)
-    careerList = models.UUIDField(default=uuid.uuid4, editable=False)
 
     def __str__(self):
         return self.familyNameKanji

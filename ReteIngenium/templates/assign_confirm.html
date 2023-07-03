@@ -1,11 +1,14 @@
-<!-- assign_confirm.html -->
 <h1>案件情報</h1>
 <p>{{ project.projectSummary }}</p>
-<!-- 他の案件情報も表示 -->
+<p>依頼企業名：{{project.projectCliant}}</p>
+<p>単価：{{project.projectUnitPrice}}</p>
+<p>案件詳細：{{project.projectDetail}}</p>
 
 <h1>従業員情報</h1>
 <p>{{ employee.familyNameKanji }} {{ employee.firstNameKanji }}</p>
-<!-- 他の従業員情報も表示 -->
+<p>カナ：{{employee.familyNameKana}} {{employee.firstNameKana}}</p>
+<p>主な開発言語：{{employee.mainLanguage}}</p>
+<p>経験年数：{{employee.yearsOfExp}}</p>
 
 <form method="post" action="{% url 'assign_confirm' project.projectId employee.employeeId %}">
     {% csrf_token %}
